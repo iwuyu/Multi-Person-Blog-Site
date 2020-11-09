@@ -1,20 +1,20 @@
 <template>
-  <div id="app">
-    <app-header/>
-    <router-view></router-view>
+  <div id="home">
+    首页
   </div>
 </template>
 
 <script>
 import appHeader from "components/content/header/appHeader"
 export default {
-  name: "app",
+  name: "home",
   components: {
     appHeader
   }
+
 }
 </script>
 
-<style>
-@import "./assets/css/base.css" 
+<style lang="scss" scoped>
+
 </style>
