@@ -1,12 +1,19 @@
 <template>
   <div id="profile">
-    个人中心
+    <!-- <app-header/> -->
+    <login/>
   </div>
 </template>
 
 <script>
+import appHeader from "components/content/header/appHeader";
+import login from "./childConps/login";
 export default {
-  name:"profile"
+  name:"profile",
+  components: {
+    appHeader,
+    login
+  }
 
 }
 </script>

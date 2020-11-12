@@ -28,7 +28,7 @@ export default {
         padding: 0 1.5rem;
         cursor: pointer;
         &:hover {
-          color: #9644ff;
+          color: #417dff;
         }
       }
     }
