@@ -11,7 +11,7 @@ export default {
   name: "navbar",
   data() {
     return {
-      navbars:[{title:"首页",path:"/home"},{title:"个人中心",path:"/profile"}]
+      navbars:[{title:"首页",path:"/home"},{title:"个人中心",path:"/profile/personal"}]
     }
   }
 }

@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { userLogin, userRegister, sendMail } from "network/login/login";
+import { userLogin, userRegister, sendMail } from "network/login";
 export default {
   name: "login",
   data() {
@@ -151,11 +151,32 @@ export default {
     submitLogin(data) {
       this.$refs[data].validate((valid) => {
         if (valid) {
+          let data = this.loginForm
           userLogin(data).then(res => {
-            console.log(res);
+            if(res.data.statusCode === 200){
+              localStorage.setItem("username", res.data.data.token); // token存储到本地
+              localStorage.setItem("userId", res.data.data.id); // userId存储到本地
+              this.$emit('logined',true); // 向父组件传递登录成功事件
+              this.$store.state.userIsLogined = true
+              this.$store.state.username = res.data.data.name
+              this.$router.replace('/profile/personal')
+              // this.$store.state.avatar = 'http://localhost:3000'+res.data.data.avatar
+              this.$message({
+                type:'success',
+                message:res.data.message
+              })
+            }else{
+              this.$message({
+                type:'error',
+                message:res.data.message
+              })
+            }
           })
         } else {
-          console.log('error login!!');
+          this.$message({
+            type:'error',
+            message:"信息填写有误，请检查信息"
+          })
           return false;
         }
       });
@@ -165,13 +186,22 @@ export default {
       data.mail = this.registerForm.mail;
       console.log(data)
       sendMail(data).then(res => {
-        console.log(res);
+        if(res.data.status === 0){
+          this.$message({
+            type:'success',
+            message:res.data.message
+          })
+        }else{
+          this.$message({
+            type:'error',
+            message:res.data.message
+          })
+        }
       })
     },
     submitRegister(data) {
       this.$refs[data].validate((valid) => {
         if (valid) {
-          // console.log(data)
           let data = this.registerForm;
           let truedata = {};
           truedata.username = data.regUsername;
@@ -179,10 +209,23 @@ export default {
           truedata.mail = data.mail;
           truedata.code = data.code;
           userRegister(truedata).then(res => {
-            console.log(res);
-          })
+            if(res.data.status === 0){
+              this.$message({
+                type:'success',
+                message:res.data.message
+              })
+            }else{
+              this.$message({
+                type:'error',
+                message:res.data.message
+              })
+            }
+          }).catch(err => {console.log(err)})
         } else {
-          console.log('error register!!');
+          this.$message({
+            type:'error',
+            message:"信息不完整，请检查信息"
+          })
           return false;
         }
       });

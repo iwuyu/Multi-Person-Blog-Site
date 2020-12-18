@@ -1,4 +1,4 @@
-import instance from "../request";
+import instance from "./request";
 
 /* 发送验证码 */
 export function sendMail(data) {
@@ -25,4 +25,22 @@ export function userRegister(data) {
     url:"/user/register",
     data
   });
+}
+
+/* 验证用户是否登录 */
+export function userIsLogined(data) {
+  return instance.request({
+    method: "post",
+    url: "/user/isLogined",
+    data
+  })
+}
+
+/* 用户注销登录 */
+export function userSignOut(data) {
+  return instance.request({
+    method:'post',
+    url:'/user/signout',
+    data
+  })
 }

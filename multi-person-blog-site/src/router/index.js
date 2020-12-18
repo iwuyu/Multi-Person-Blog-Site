@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+const home = () => import('../views/home/index')
+const profile = () => import('../views/profile/index')
 // // 插件安装
 Vue.use(VueRouter);
 
@@ -11,13 +13,34 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'home',
-    component: () => import('../views/home/index.vue')
+    component: home
   },
   {
     path: '/profile',
-    name: 'profile',
-    component: () => import('../views/profile/index.vue')
+    component: profile,
+    redirect: '/profile/personal',
+    children: [
+      {
+        path: '/profile/personal',
+        name: 'personal',
+        component: () => import('../views/profile/childConps/personal.vue')
+      },
+      {
+        path: '/profile/article/publish',
+        name: 'articleAdd',
+        component: () => import('../views/profile/childConps/articleAdd.vue')
+      },
+      {
+        path: '/profile/article/management',
+        name: 'articleManagement',
+        component: () => import('../views/profile/childConps/articleManagement.vue')
+      },
+    ]
+  },
+  {
+    path: '/article/detail/:id',
+    name: 'detail',
+    component: () => import('../views/detail/index.vue')
   },
 ]
 

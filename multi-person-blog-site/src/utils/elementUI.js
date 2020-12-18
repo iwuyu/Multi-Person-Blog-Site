@@ -4,13 +4,12 @@ import {
   Button, 
   Select,
   Option,
-  Carousel,
-  CarouselItem,
   Form,
   FormItem,
   Input,
   Row,
   Col,
+  Tag,
   // Dropdown,
   // DropdownMenu,
   // DropdownItem,
@@ -19,6 +18,8 @@ import {
   MenuItem,
   // MenuItemGroup,
   Container,
+  Carousel,
+  CarouselItem,
   Header,
   Aside,
   Main,
@@ -30,9 +31,12 @@ import {
   Table,
   TableColumn,
   Autocomplete,
-  Pagination
+  Pagination,
+  Popover,
 } from 'element-ui';
 
+Vue.use(Carousel);
+Vue.use(CarouselItem)
 Vue.use(Button);
 Vue.use(Select);
 Vue.use(Option);
@@ -43,6 +47,7 @@ Vue.use(FormItem);
 Vue.use(Input);
 Vue.use(Row);
 Vue.use(Col);
+Vue.use(Tag);
 // Vue.use(Dropdown);
 // Vue.use(DropdownMenu);
 // Vue.use(DropdownItem);
@@ -62,6 +67,8 @@ Vue.use(Table);
 Vue.use(TableColumn);
 Vue.use(Autocomplete);
 Vue.use(Pagination);
+Vue.use(Popover);
 Vue.prototype.$message = Message;
 //引入css文件
 import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/display.css';

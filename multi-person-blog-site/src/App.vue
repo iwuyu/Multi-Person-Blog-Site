@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <app-header/>
+    <app-header class="header"/>
     <router-view></router-view>
   </div>
 </template>
@@ -16,5 +16,12 @@ export default {
 </script>
 
 <style>
-@import "./assets/css/base.css" 
+@import "./assets/css/base.css" ;
+
+#app {
+  height: 100%;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  background: url(assets/img/blogbg.png);
+}
 </style>
