@@ -44,3 +44,28 @@ export function userSignOut(data) {
     data
   })
 }
+
+/* 管理员登录 */
+export function adminLogin(data) {
+  return instance.request({
+    method: "post",
+    url:"/admin/login",
+    data
+  });
+}
+
+// 验证管理员是否登录
+export function adminIsLogined() {
+  return instance.request({
+    method: "get",
+    url:'/admin/adminIsLogined'
+  })
+}
+
+// 管理员退出登录
+export function adminExit() {
+  return instance.request({
+    method: "get",
+    url:'/admin/exit'
+  })
+}

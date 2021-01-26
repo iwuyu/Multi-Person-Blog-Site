@@ -33,6 +33,8 @@ import {
   Autocomplete,
   Pagination,
   Popover,
+  MessageBox,
+  Switch
 } from 'element-ui';
 
 Vue.use(Carousel);
@@ -68,7 +70,9 @@ Vue.use(TableColumn);
 Vue.use(Autocomplete);
 Vue.use(Pagination);
 Vue.use(Popover);
+Vue.use(Switch);
 Vue.prototype.$message = Message;
+Vue.prototype.$confirm = MessageBox;
 //引入css文件
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';

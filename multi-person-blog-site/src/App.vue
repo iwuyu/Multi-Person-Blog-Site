@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <app-header class="header"/>
+    <app-header v-show="$store.state.adminIsLogin" class="header"></app-header>
     <router-view></router-view>
   </div>
 </template>

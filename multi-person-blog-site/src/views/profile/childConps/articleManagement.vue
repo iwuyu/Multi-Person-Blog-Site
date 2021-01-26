@@ -18,6 +18,14 @@
           :value="item.label_id">
         </el-option>
       </el-select>
+      <el-select class="change" v-model="param.articleStatus" @change="selectLabelChanged" filterable placeholder="请选择状态">
+        <el-option
+          v-for="item in articleStatusData"
+          :key="item.articleStatus_id"
+          :label="item.articleStatus_name"
+          :value="item.articleStatus_id">
+        </el-option>
+      </el-select>
       <el-input
         class="input-keywork"
         v-model="param.keyword"
@@ -47,12 +55,12 @@
       </el-table-column> -->
       <el-table-column label="点赞量" width="120">
         <template slot-scope="scope">
-          <span style="margin-left: 0px">点赞量：{{ scope.row.like }}</span>
+          <span style="margin-left: 0px">点赞量：{{ scope.row.likes }}</span>
         </template>
       </el-table-column>
       <el-table-column label="阅读量" width="120">
         <template slot-scope="scope">
-          <span style="margin-left: 0px">阅读量：{{ scope.row.read }}</span>
+          <span style="margin-left: 0px">阅读量：{{ scope.row.access }}</span>
         </template>
       </el-table-column>
       <el-table-column label="发布日期" width="180">
@@ -63,7 +71,7 @@
       </el-table-column>
       <el-table-column label="状态" width="100">
         <template slot-scope="scope">
-          <span style="margin-left: 0px" :class="scope.row.reviewed == 0 ? 'review' : 'reviewed'">{{ scope.row.reviewed == 0 ? "待审核" : "已审核" }}</span>
+          <span style="margin-left: 0px" :class="scope.row.reviewed == 0 ? 'review' : (scope.row.reviewed == 1 ? 'reviewed' : 'nopass')">{{ scope.row.reviewed == 0 ? "待审核" : (scope.row.reviewed == 1 ? "已审核" : "未通过") }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200">
@@ -89,7 +97,7 @@
 </template>
 
 <script>
-import { getArticle, getArticlesCount,  getCategory, getLabel } from 'network/article';//deleteArticle,
+import { getArticle, getArticlesCount, deleteArticle, getCategory, getLabel } from 'network/article';//deleteArticle,
 import uploadImage from "network/upload";
 import articlePublish from './articleAdd';
 import Page from 'components/content/page/Page';
@@ -102,7 +110,7 @@ export default {
   },
   data() {
     return {
-      total:0, // 商品总数
+      total:0, // 文章总数
       dialogFormVisible: false,
       param:{
         categoryId:"", // 当前分类
@@ -110,10 +118,16 @@ export default {
         keyword:"", // 关键字
         currentPage:1, // 当前页码
         pageSize:6, // 每页数据量
-        author:localStorage.userId //作者
+        author:localStorage.userId, //作者
+        articleStatus:1 //文章状态
       },
       categoryData:[],
       labelData:[],
+      articleStatusData:[
+                          {articleStatus_id:1,articleStatus_name:'已审核'},
+                          {articleStatus_id:0,articleStatus_name:'未审核'},
+                          {articleStatus_id:2,articleStatus_name:'未通过'}
+                        ],
       tableData:[],
       categoryId:'',
       obj:{},
@@ -207,21 +221,30 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        const imgsrcs = row.image.split('/');
-        const imgsrc = imgsrcs[imgsrcs.length - 1];
-        // deleteArticle(row.article_id,imgsrc).then(res => {
-        //   if(res.data.err == 0){
-        //     this.$message({
-        //       type: 'success',
-        //       message: res.data.msg
-        //     });
-        //   }else {
-        //     this.$message({
-        //       type: 'error',
-        //       message: res.data.msg
-        //     })
-        //   }
-        // }).catch(err => {})
+        const images = row.image.split('/');
+        const image = images[images.length - 1];
+        let data = {}
+        data.token = localStorage.username
+        data.articleId = row.id
+        data.image = image
+        deleteArticle(data).then(res => {
+          if(res.data.statusCode == 200){
+            /* 获取所有商品数量 */
+            this.getArticleCount(this.param);
+
+            /* 获取商品*/
+            this.getArticlesData(this.param);
+            this.$message({
+              type: 'success',
+              message: res.data.message
+            });
+          }else {
+            this.$message({
+              type: 'error',
+              message: res.data.message
+            })
+          }
+        }).catch(err => {})
       })
     },
     
@@ -325,6 +348,9 @@ export default {
     color: #67C23A;
   }
   .review {
+    color:#E6A23C;
+  }
+  .nopass {
     color: #F56C6C;
   }
 

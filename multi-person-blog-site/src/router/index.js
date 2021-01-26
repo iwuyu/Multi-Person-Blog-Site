@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index'
+import {adminIsLogined} from 'network/login'
 
 const home = () => import('../views/home/index')
 const profile = () => import('../views/profile/index')
@@ -42,6 +44,38 @@ const routes = [
     name: 'detail',
     component: () => import('../views/detail/index.vue')
   },
+  {
+    path: '/admin/login',
+    name: 'adminLogin',
+    component: () => import('../components/admin/childComps/adminLogin.vue')
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('../components/admin/admin.vue'),
+    children: [
+      {
+        path: '/admin/dashboard',
+        name: 'dashboard',
+        component: () => import('../components/admin/childComps/dashboard.vue')
+      },
+      {
+        path: '/admin/audit/article',
+        name: 'articleAudit',
+        component: () => import('../components/admin/childComps/articleAudit.vue')
+      },
+      {
+        path: '/admin/management/user',
+        name: 'managementUser',
+        component: () => import('../components/admin/childComps/managementUser.vue')
+      },
+      {
+        path: '/admin/audit/question',
+        name: 'questionAudit',
+        component: () => import('../components/admin/childComps/questionAudit.vue')
+      },
+    ]
+  },
 ]
 
 // 创建路由对象
@@ -58,9 +92,21 @@ VueRouter.prototype.replace = function push(location) {
 }
 
 /* 管理系统守卫 */
-// router.beforeEach((to,from,next) => {
-  
-// })
+router.beforeEach((to,from,next) => {
+  if(to.path.includes("/admin")) {
+    store.state.adminIsLogin = false
+    adminIsLogined().then(res => {
+      if(res.data.statusCode === 200) {
+        next()
+      } else {
+        next('/admin/login')
+      }
+    }).catch(err => {
+      
+    })
+  }
+  next()
+})
 
 /* 路由跳转回顶部 */
 // router.afterEach((to,from,next)=>{

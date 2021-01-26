@@ -6,6 +6,8 @@ import "./utils/elementUI"
 import './assets/iconfont/iconfont.css'
 import mavonEditor from 'mavon-editor' // 引入markdown 所有组件
 import 'mavon-editor/dist/css/index.css';
+// import echarts from 'echarts'
+// Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
 

@@ -1,19 +1,19 @@
 <template>
   <div id="home">
     <el-row :gutter="20">
-      <el-col class="hidden-md-and-down"          :lg="1" :xl="2"><div class="grid-content"></div></el-col>
-      <el-col :xs="24" :sm="24"          :md="18" :lg="16" :xl="15">
-        <div class="banner">
+      <el-col class="hidden-md-and-down"          :lg="2" :xl="2"><div class="grid-content"></div></el-col>
+      <el-col :xs="24" :sm="24"          :md="18" :lg="15" :xl="15">
+        <!-- <div class="banner">
           <el-carousel indicator-position="outside">
             <el-carousel-item v-for="item in 4" :key="item">
               <h3>{{ item }}</h3>
             </el-carousel-item>
           </el-carousel>
-        </div>
+        </div> -->
         <article-list class="list"/>
       </el-col>
-      <el-col class="hidden-sm-and-down" :md="6"  :lg="6" :xl="5"><side/></el-col>
-      <el-col class="hidden-md-and-down"          :lg="1" :xl="2"><div class="grid-content"></div></el-col>
+      <el-col class="hidden-sm-and-down" :md="6"  :lg="5" :xl="5"><side/></el-col>
+      <el-col class="hidden-md-and-down"          :lg="2" :xl="2"><div class="grid-content"></div></el-col>
     </el-row>
   </div>
 </template>
@@ -43,7 +43,7 @@ export default {
     border-radius: 5px;
   }
   .list{
-    margin-top: 20px;
+    // margin-top: 20px;
   }
   .el-carousel__item h3 {
     color: #475669;

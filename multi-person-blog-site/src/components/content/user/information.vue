@@ -6,17 +6,27 @@
       </div>
       <p class="username"><strong>物语</strong></p>
     </div>
+    <p class="signature">水墨染雨君画夕,一届书生耳</p>
     <div class="box2">
       <p>文章 120&nbsp;&nbsp;</p>
       <p>问答 12&nbsp;&nbsp;</p>
       <p>获赞 1205</p>
     </div>
+    <div class="box3">
+    </div>
   </div>
 </template>
 
 <script>
+import MenuList from "./menuList";
 export default {
-  name: "information"
+  name: "information",
+  components: {MenuList},
+  data() {
+    return {
+
+    }
+  }
 }
 </script>
 
@@ -49,6 +59,12 @@ export default {
         color: #333;
         padding: 3px 0;
       }
+    }
+    
+    .signature {
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 20px;
     }
     .box2{
       display: flex;

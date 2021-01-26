@@ -33,7 +33,7 @@
           <span>{{ scope.row.reply.length }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作"width="150">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>

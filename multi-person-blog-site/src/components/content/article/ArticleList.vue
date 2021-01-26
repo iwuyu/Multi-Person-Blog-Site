@@ -36,7 +36,6 @@
 
 <script>
 import Page from "./Page";
-// import Bus from 'utils/bus.js';
 import { userIsLogined } from 'network/login';
 import uploadImage from "network/upload";
 import { getArticle, getArticlesCount} from 'network/article';
@@ -57,7 +56,8 @@ export default {
         keyword:'', // 关键字
         currentPage:1, // 当前页码
         pageSize:5, // 每页数据量
-        author:'' //作者
+        author:'', //作者
+        articleStatus:1 //文章状态
       },
       categoryId:'',
       labelId:'',

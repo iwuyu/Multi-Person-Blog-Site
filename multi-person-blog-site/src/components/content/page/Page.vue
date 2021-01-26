@@ -50,7 +50,7 @@ export default {
   }
     
   .right {
-    text-align: right;
+    text-align: center;
   }
   
 </style>

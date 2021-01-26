@@ -9,7 +9,7 @@
         </div>
         <!-- default-active="1-1" -->
         <el-menu 
-        background-color="#409EFF"
+        background-color="#888"
         text-color="#fff"
         active-text-color="pink"
         class="el-menu-vertical-demo"
@@ -67,20 +67,20 @@ export default {
   name: 'operation',
   data() {
     return {
-      isCollapse:true,
-      asideWith:'59px',
-      elIcon:'el-icon-arrow-right'
+      isCollapse:false,
+      asideWith:'199px',
+      elIcon:'el-icon-arrow-left'
     }
   },
   methods:{
     contraction(){
       this.isCollapse = !this.isCollapse;
       if(this.isCollapse) {
-        this.asideWith = '60px';
-        this.elIcon = 'el-icon-arrow-right';
-      }else {
         this.asideWith = '199px';
         this.elIcon = 'el-icon-arrow-left';
+      }else {
+        this.asideWith = '60px';
+        this.elIcon = 'el-icon-arrow-right';
       }
     },
     // adminExit() {
@@ -114,7 +114,7 @@ export default {
     }
     .el-aside {
       width: 200px;
-      background-color:#409EFF;
+      background-color:#888;
       height: calc(100vh - 60px);
       max-height: calc(100vh - 60px);
     }

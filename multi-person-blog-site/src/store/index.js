@@ -3,14 +3,15 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+ const store = new Vuex.Store({
   state: {
     userIsLogined: false,
     username:'登录/注册',
     avatar:'',
     categoryId:'',
     labelId:'',
-    keyword:''
+    keyword:'',
+    adminIsLogin:true
   },
   mutations: {
     Logined(state){
@@ -24,3 +25,5 @@ export default new Vuex.Store({
 
   }
 })
+
+export default store;
