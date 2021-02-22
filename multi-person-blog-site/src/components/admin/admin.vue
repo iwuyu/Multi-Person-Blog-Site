@@ -23,11 +23,10 @@
             <template slot="title"><i class="el-icon-s-order"></i><span slot="title">管理面板</span></template>
               <el-menu-item @click.native="$router.push('/admin/audit/article')" index="2-1">文章审核</el-menu-item>
               <el-menu-item @click.native="$router.push('/admin/management/user')" index="2-2">用户管理</el-menu-item>
-              <el-menu-item @click.native="$router.push('/admin/audit/question')" index="2-3">问答审核</el-menu-item>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title"><i class="el-icon-discount"></i><span slot="title">分类/标签</span></template>
-              <el-menu-item @click.native="$router.push('/admin/article/category')" index="3-1">分类管理</el-menu-item>
+              <el-menu-item @click.native="$router.push('/admin/management/category')" index="3-1">分类管理</el-menu-item>
               <el-menu-item @click.native="$router.push('/admin/article/label')" index="3-2">标签云</el-menu-item>
           </el-submenu>
           <el-submenu index="4">

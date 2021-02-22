@@ -9,11 +9,11 @@
         </div>
         <!-- default-active="1-1" -->
         <el-menu 
+        :default-openeds="['1','2','3','4','5']"
         background-color="#888"
         text-color="#fff"
         active-text-color="pink"
         class="el-menu-vertical-demo"
-        default-active="1-1"
         :collapse="isCollapse">
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-user-solid"></i><span slot="title">基本信息</span></template>
@@ -23,31 +23,23 @@
             <template slot="title"><i class="el-icon-s-order"></i><span slot="title">文章管理</span></template>
               <el-menu-item @click.native="$router.push('/profile/article/management')" index="2-1">文章列表</el-menu-item>
               <el-menu-item @click.native="$router.push('/profile/article/publish')" index="2-2">文章发表</el-menu-item>
-              <el-menu-item @click.native="$router.push('/admin/article/message')" index="2-3">文章评论</el-menu-item>
+              <el-menu-item @click.native="$router.push('/profile/article/message')" index="2-3">文章评论</el-menu-item>
           </el-submenu>
           <el-submenu index="3">
-            <template slot="title"><i class="el-icon-discount"></i><span slot="title">分类/标签</span></template>
-              <el-menu-item @click.native="$router.push('/admin/article/category')" index="3-1">文章分类</el-menu-item>
-              <el-menu-item @click.native="$router.push('/admin/article/label')" index="3-2">标签云</el-menu-item>
+            <template slot="title"><i class="el-icon-discount"></i><span slot="title">问答管理</span></template>
+              <el-menu-item @click.native="$router.push('/profile/question/publish')" index="3-1">问题发布</el-menu-item>
+              <el-menu-item @click.native="$router.push('/profile/question/management')" index="3-2">我的提问</el-menu-item>
+              <el-menu-item @click.native="$router.push('/profile/question/answer')" index="3-3">被回答</el-menu-item>
+              <el-menu-item @click.native="$router.push('/profile/question/myAnswer')" index="3-4">我的回答</el-menu-item>
           </el-submenu>
           <el-submenu index="4">
-            <template slot="title"><i class="el-icon-video-camera-solid"></i><span slot="title">Demo</span></template>
-              <el-menu-item @click.native="$router.push('/admin/demo/publish')" index="4-1">Demo上传</el-menu-item>
-              <el-menu-item @click.native="$router.push('/admin/demo/management')" index="4-2">Demo管理</el-menu-item>
+            <template slot="title"><i class="el-icon-video-camera-solid"></i><span slot="title">我的私信</span></template>
+              <el-menu-item @click.native="$router.push('/admin/demo/publish')" index="4-1">私信列表</el-menu-item>
           </el-submenu>
           <el-submenu index="5">
-            <template slot="title"><i class="el-icon-folder-opened"></i><span slot="title">Tools</span></template>
-              <el-menu-item @click.native="$router.push('/admin/tool/publish')" index="5-1">Tool上传</el-menu-item>
-              <el-menu-item @click.native="$router.push('/admin/tool/management')" index="5-2">Tool管理</el-menu-item>
-          </el-submenu>
-          <el-submenu index="6">
-            <template slot="title"><i class="el-icon-data-analysis"></i><span slot="title">公告</span></template>
-              <el-menu-item @click.native="$router.push('/admin/notice/publish')" index="6-1">发布公告</el-menu-item>
-          </el-submenu>
-          <el-submenu index="7">
             <template slot="title"><i class="el-icon-s-tools"></i><span slot="title">系统设置</span></template>
-              <el-menu-item index="7-1">关于系统</el-menu-item>
-              <el-menu-item index="7-2">退出系统</el-menu-item>
+              <!-- <el-menu-item index="5-1">关于系统</el-menu-item> -->
+              <el-menu-item index="5-1">退出登录</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>

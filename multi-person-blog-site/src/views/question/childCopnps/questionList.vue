@@ -1,45 +1,55 @@
 <template>
 <div class="article_list">
-  <p class="article_p">文章列表 <img src="../../../assets/img/yeshu.gif" alt=""></p>
+  <p class="article_p">问答列表</p>
   <div class="article_item" v-for="item in articleLists" :key="item.id">
-    <!--文章封面图-->
     <div class="art_img">
-      <img :src="item.image" />
+      <div class="q_view">
+        <span class="q_num">{{item.likes}}</span>
+        <span class="q_tit">点赞</span>
+      </div>
+      <div class="q_view">
+        <span class="q_num">{{item.comment_count}}</span>
+        <span class="q_tit">回答</span>
+      </div>
+      <div class="q_view">
+        <span class="q_num">{{item.access}}</span>
+        <span class="q_tit">浏览</span>
+      </div>
     </div>
     <!--文章内容-->
     <div class="content">
       <!-- 时间、标题 -->
       <div class="tops">
-        <p>{{item.time}}</p>
         <span class="title" @click="toDetail(item.id)">{{item.title}}</span>
       </div>
       <!-- 描述 -->
       <div class="bodys">
-        <p class="summary">{{item.describes}}</p>
+        <p class="summary"><strong>问题描述：</strong>{{item.describes}}</p>
       </div>
       <!--时间、浏览量、评论量、点赞量-->
       <div class="foots">
-        <span>{{item.category_name}} | {{item.label_name}}</span>&nbsp;&nbsp;
-        <span>作者 {{item.username }}</span> &nbsp;&nbsp;
-        <span>阅读 {{item.access}}</span>&nbsp;&nbsp;
-        <span>评论 {{item.comment_count}}</span>&nbsp;&nbsp;
-        <!-- <i class="iconfont icon-pinglun">&nbsp;{{item.article_messagecount}}</i>&nbsp; -->
-        <span :class="{likeStyle:liked(item.id)}" @click="likeArticle(item.id)">喜欢 {{item.likes}}</span>
+        <span><el-tag type="success">{{item.name}}</el-tag></span>
+        <span>
+          <span> <i class="iconfont icon-user"></i>&nbsp; {{item.username }}</span> &nbsp;&nbsp;
+          <span> <i class="iconfont icon-icon-time"></i>&nbsp;{{item.time}}</span>&nbsp;&nbsp;
+        </span>
+        <!-- <span :class="{likeStyle:liked(item.id)}" @click="likeArticle(item.id)">喜欢 {{item.likes}}</span> -->
       </div>
     </div>
     <div class="bar"></div>
   </div>
   <div class="page">
-    <el-pagination small :page-size="param.pageSize" :current-page.sync="param.currentPage" @current-change="pageChange" layout="prev, pager, next" :total="articleCounts"></el-pagination>
+    <el-pagination small :page-size="param.pageSize" :current-page.sync="param.currentPage" @current-change="pageChange" layout="prev, pager, next" :total="questionCounts"></el-pagination>
   </div>
 </div>
 </template>
 
 <script>
-import Page from "./Page";
+import Page from "../../../components/content/article/Page";
 import { userIsLogined } from 'network/login';
 import uploadImage from "network/upload";
 import { getArticle, getArticlesCount, articleLike} from 'network/article';
+import { getQuestion,getQuestionCount } from 'network/question';
 
 export default {
   name: "ArticleList",
@@ -49,16 +59,15 @@ export default {
   data() {
     return {
       articleLists: [],
-      articleCounts: 0,
+      questionCounts: 0,
       // 文章页码与每页显示数量
       param: {
-        categoryId:'', // 当前分类
         labelId:'', //当前标签
         keyword:'', // 关键字
         currentPage:1, // 当前页码
         pageSize:5, // 每页数据量
         author:'', //作者
-        articleStatus:1 //文章状态
+        questionStatus: 0 //文章状态
       },
       categoryId:'',
       labelId:'',
@@ -107,19 +116,19 @@ export default {
     // 进入详情页
     toDetail(path) {
       this.$store.state.detailId = path;
-      this.$router.push("article/detail/" + path);
+      this.$router.push("question/detail/" + path);
     },
 
-    // 切换文章页码
+    // 切换问答页码
     pageChange() {
-      /* 获取所有商品数量 */
-      this.getArticleCount(this.param);
+      /* 获取所有问答数量 */
+      this.getQuestionCount(this.param);
 
-      /* 获取商品*/
-      this.getArticlesData(this.param);
+      /* 获取问答*/
+      this.getQuestionData(this.param);
     },
 
-    // 文章点赞
+    // 问答点赞
     likeArticle(articleId) {
       if(localStorage.getItem('username')) {
         if(localStorage.getItem(`like${articleId}`)) {
@@ -173,7 +182,7 @@ export default {
       }
     },
 
-    // 获取所有文章
+    // 获取所有问答
     getAllArticle() {
       getArticle(this.page).then(res => {
         this.articleCounts = res.data.count;
@@ -188,12 +197,12 @@ export default {
         }
       })
     },
-    /* 初始化获取文章数量 */
-    getArticleCount(param) {
-      getArticlesCount(param).then(res => {
+    /* 初始化获取问答数量 */
+    getQuestionCount(param) {
+      getQuestionCount(param).then(res => {
         let data = res.data;
         if(data.statusCode == 200) {
-          this.articleCounts = data.data[0].count;
+          this.questionCounts = data.data[0].count;
         }else {
           this.$message({
             type:"error",
@@ -203,17 +212,17 @@ export default {
       }).catch(err => {console.log(err)})
     },
 
-    /* 初始化获取文章 */
-    getArticlesData(param) {
-      getArticle(param).then(res => {
-        // 获取文章
+    /* 初始化获取问答 */
+    getQuestionData(param) {
+      getQuestion(param).then(res => {
+        // 获取问答
         if(res.data.statusCode == 200){
           let data = res.data.data;
-          console.log(data);
-          data.forEach((item,index) => {
-            item.image = uploadImage.UPLOAD.BASEURL + item.image;
-            // this.$set(this.tableData, index, item)
-          });
+          console.log('success',data);
+          // data.forEach((item,index) => {
+          //   item.image = uploadImage.UPLOAD.BASEURL + item.image;
+          //   // this.$set(this.tableData, index, item)
+          // });
           this.articleLists = data;
           this.loading = false;
         }else {
@@ -230,37 +239,37 @@ export default {
     currentLabelId(value) {
       this.param.categoryId = ''
       this.param.labelId = value.toString().substring(10,value.length).replace(/\b(0+)/gi,"");
-      /* 获取所有商品数量 */
-      this.getArticleCount(this.param);
-      /* 获取商品*/
-      this.getArticlesData(this.param);
+      /* 获取所有问答数量 */
+      this.getQuestionCount(this.param);
+      /* 获取问答*/
+      this.getQuestionData(this.param);
     },
 
     // 监听分类的变化
     currentCategoryId(value) {
       this.param.labelId = ''
       this.param.categoryId = value.toString().substring(10,value.length).replace(/\b(0+)/gi,"");
-      /* 获取所有商品数量 */
-      this.getArticleCount(this.param);
-      /* 获取商品*/
-      this.getArticlesData(this.param);
+      /* 获取所有问答数量 */
+      this.getQuestionCount(this.param);
+      /* 获取问答*/
+      this.getQuestionData(this.param);
     },
 
     // 监听搜索框的变化
     currentKeyWord(value) {
       this.param.keyword = value
-      /* 获取所有商品数量 */
-      this.getArticleCount(this.param);
-      /* 获取商品*/
-      this.getArticlesData(this.param);
+      /* 获取所有问答数量 */
+      this.getQuestionCount(this.param);
+      /* 获取问答*/
+      this.getQuestionData(this.param);
     },
   },
   created() {
-    /* 获取所有商品数量 */
-    this.getArticleCount(this.param);
+    /* 获取所有问答数量 */
+    this.getQuestionCount(this.param);
 
-    /* 获取商品*/
-    this.getArticlesData(this.param);
+    /* 获取问答*/
+    this.getQuestionData(this.param);
   }
 };
 </script>
@@ -304,12 +313,17 @@ export default {
         }
       }
       .art_img {
-        width: 250px;  
+        width: 250px;
+        display: flex;
+        align-items: center;  
         border-radius: 5px;
-        img{
-          border-radius: 5px;
-          width: 100%;
-          height: 100%;
+        padding: 0 20px;
+        .q_view{
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
         }
       }
       .content {
@@ -343,9 +357,11 @@ export default {
           }
         } 
         .bodys{
+          height: 40px;
+          line-height: 40px;
           font-size: .85rem;
           color: #666;
-          -webkit-line-clamp: 3;
+          -webkit-line-clamp: 1;
           display: -webkit-box;
           overflow: hidden;
           word-break: break-all;
@@ -359,33 +375,17 @@ export default {
           color: #444;
           font-size: .85rem;
           line-height: 1.5rem;
-          span{
-            cursor: pointer;
-          }
           span:nth-child(1){
-            &:hover{
-              color: palegreen;
+            float: left;
+            // &:nth-child(1) {
+            //   cursor: pointer;
+            // }
+            span {
+              cursor: pointer;
             }
           }
           span:nth-child(2){
-            &:hover{
-              color:palevioletred;
-            }
-          }
-          span:nth-child(3){
-            &:hover{
-              color:slateblue;
-            }
-          }
-          span:nth-child(4){
-            &:hover{
-              color:goldenrod;
-            }
-          }
-          span:nth-child(5){
-            &:hover{
-              color:tomato;
-            }
+            float: right;
           }
         }
       }

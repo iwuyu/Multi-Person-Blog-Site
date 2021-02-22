@@ -1,6 +1,6 @@
 import instance from "./request";
 
-// 获取用户
+// 获取所有用户
 export function getUsers(param){
   return instance.get(`/getUsers?currentPage=${param.currentPage}&pageSize=${param.pageSize}`)
 }
@@ -13,3 +13,7 @@ export function changeStatus(data){
     data
   });
 }
+
+export function getUserInfo(param) {
+  return instance.get(`/getUserInfo?token=${param.token}`) 
+} 

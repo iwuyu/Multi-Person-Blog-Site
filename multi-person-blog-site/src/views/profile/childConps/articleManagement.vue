@@ -262,10 +262,10 @@ export default {
     }
   },
   mounted() {
-    /* 获取所有商品数量 */
+    /* 获取所有文章数量 */
     this.getArticleCount(this.param);
 
-    /* 获取商品*/
+    /* 获取文章*/
     this.getArticlesData(this.param);
   
    // 获取分类

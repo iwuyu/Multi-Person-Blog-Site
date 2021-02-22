@@ -79,9 +79,7 @@
           v-model="formComment.content"
           placeholder="你想说些什么呢..."
         ></textarea>
-        <el-button plain class="leave_btn" @click="leaveComments"
-          >提交评论</el-button
-        >
+        <el-button plain class="leave_btn" @click="leaveComments">提交评论</el-button>
       </div>
     </el-dialog>
   </div>

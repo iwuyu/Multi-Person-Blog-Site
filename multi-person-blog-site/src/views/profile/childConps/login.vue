@@ -165,6 +165,7 @@ export default {
                 type:'success',
                 message:res.data.message
               })
+              location.reload();
             }else{
               this.$message({
                 type:'error',

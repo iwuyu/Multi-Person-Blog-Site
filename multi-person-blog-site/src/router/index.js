@@ -37,12 +37,37 @@ const routes = [
         name: 'articleManagement',
         component: () => import('../views/profile/childConps/articleManagement.vue')
       },
+      {
+        path: '/profile/article/message',
+        name: 'articleMessage',
+        component: () => import('../views/profile/childConps/articleMessage.vue')
+      },
+      {
+        path: '/profile/question/publish',
+        name: 'questionAdd',
+        component: () => import('../views/profile/childConps/questionAdd.vue')
+      },
+      {
+        path: '/profile/question/management',
+        name: 'questionManagement',
+        component: () => import('../views/profile/childConps/questionManagement.vue')
+      },
     ]
   },
   {
     path: '/article/detail/:id',
     name: 'detail',
     component: () => import('../views/detail/index.vue')
+  },
+  {
+    path: '/question',
+    name: 'question',
+    component: () => import('../views/question/index.vue')
+  },
+  {
+    path: '/question/detail/:id',
+    name: 'detail',
+    component: () => import('../views/question/detail.vue')
   },
   {
     path: '/admin/login',
@@ -70,9 +95,9 @@ const routes = [
         component: () => import('../components/admin/childComps/managementUser.vue')
       },
       {
-        path: '/admin/audit/question',
-        name: 'questionAudit',
-        component: () => import('../components/admin/childComps/questionAudit.vue')
+        path: '/admin/management/category',
+        name: 'category',
+        component: () => import('../components/admin/childComps/category.vue')
       },
     ]
   },
@@ -89,6 +114,11 @@ const router = new VueRouter({
 const originalPush = VueRouter.prototype.replace
 VueRouter.prototype.replace = function push(location) {
   return originalPush.call(this, location).catch(err => err)
+}
+/* 重定向不报错 */
+const originalPush2 = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush2.call(this, location).catch(err => err)
 }
 
 /* 管理系统守卫 */

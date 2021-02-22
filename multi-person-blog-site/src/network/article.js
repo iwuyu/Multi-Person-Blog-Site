@@ -70,6 +70,15 @@ export function reviewedArticle(data) {
   })
 } 
 
+/* 文章点赞 */
+export function articleLike(data) {
+  return instance.request({
+    method:"post",
+    url:'/article/like',
+    data
+  })
+}
+
 /* 取消上传 */
 export function cancelUpload(data) {
   return instance.request({
@@ -101,5 +110,22 @@ export function getComment(data) {
   return instance.request({
     method:'get',
     url:`/comment/getComment?id=${data.id}&type=${data.type}`
+  })
+}
+
+// 判断是否有留言
+export function hasComment(data) {
+  return instance.request({
+    method:'get',
+    url:`/comment/hasComment?id=${data.id}`
+  })
+}
+
+// 删除留言
+export function deleteComment(data) {
+  return instance.request({
+    method:"post",
+    url:'/comment/deteleComment',
+    data
   })
 }
