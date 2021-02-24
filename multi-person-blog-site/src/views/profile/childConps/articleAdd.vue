@@ -5,7 +5,7 @@
     <el-form :model="formAdd" status-icon :rules="rules" ref="formAdd" class="demo-formAdd">
       <el-form-item prop="title">
         <label><i class="el-icon-paperclip">&nbsp;文章标题</i></label>
-        <el-input type="text" v-model="formAdd.title" autocomplete="off"></el-input>
+        <el-input type="text" v-focus v-model="formAdd.title" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item prop="category">
         <label><i class="el-icon-paperclip">&nbsp;文章分类</i></label><br/>
@@ -61,7 +61,7 @@
       <el-form-item prop="content">
         <label><i class="el-icon-paperclip">&nbsp;文章内容</i></label>
         <div class="editor">
-          <mavon-editor style="height: 100%"  v-model="formAdd.content" ref="md"></mavon-editor>
+          <mavon-editor style="height: 100%" @imgAdd="imgAdd" @imgDel="imgDel" :toolbars="toolbars" v-model="formAdd.content" ref="md"></mavon-editor>
         </div>
       </el-form-item> 
       <el-form-item>
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { articlePublish, articleUpdata, getCategory, getLabel, cancelUpload } from "network/article"
+import { articlePublish, articleUpdata, getCategory, getLabel,articleImages, deleteImage } from "network/article"
 import upload from "network/upload" 
 // import uploadArticleImage from './uploadArticleImage';
 export default {
@@ -159,7 +159,42 @@ export default {
         content: [
           { validator: validateContent, trigger: 'blur' }
         ],
-      }
+      },
+      toolbars: {
+        bold: true, // 粗体
+        italic: false, // 斜体
+        header: true, // 标题
+        underline: false, // 下划线
+        strikethrough: false, // 中划线
+        mark: false, // 标记
+        superscript: false, // 上角标
+        subscript: false, // 下角标
+        quote: true, // 引用
+        ol: false, // 有序列表
+        ul: false, // 无序列表
+        link: true, // 链接
+        imagelink: true, // 图片链接
+        code: true, // code
+        table: false, // 表格
+        fullscreen: true, // 全屏编辑
+        readmodel: true, // 沉浸式阅读
+        htmlcode: true, // 展示html源码
+        help: true, // 帮助
+        /* 1.3.5 */
+        undo: true, // 上一步
+        redo: true, // 下一步
+        trash: true, // 清空
+        save: true, // 保存（触发events中的save事件）
+        /* 1.4.2 */
+        navigation: true, // 导航目录
+        /* 2.1.8 */
+        alignleft: false, // 左对齐
+        aligncenter: false, // 居中
+        alignright: false, // 右对齐
+        /* 2.2.1 */
+        subfield: true, // 单双栏模式
+        preview: true, // 预览
+      },
     }
   },
   methods:{
@@ -222,6 +257,45 @@ export default {
       });
     },
 
+    // 文章内容图上传
+    imgAdd(pos, file) {
+      let formdata = new FormData()
+      formdata.append('articleImages', file)
+      articleImages(formdata).then(res => {
+          if (res.data.statusCode === 200) {
+            res.data.data = this.baseurl + res.data.data
+            this.$refs.md.$img2Url(pos, res.data.data);
+          } else {
+            this.$message({
+              message: res.data.message,
+              type: 'error',
+              offset:'80'
+            });
+          }
+      })
+    },
+
+    // 文章内容图删除
+    imgDel(pos) {
+      let path = pos[0]
+      path = path.substring(this.baseurl.length)
+      let data = {}
+      data.filePath = path
+      deleteImage(data).then(res => {
+        if(res.data.statusCode === 200) {
+          this.$message({
+            message: res.data.message,
+            type: 'success'
+          });
+        }else {
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          });
+        }
+      })
+    },
+
     /* 确认提交 */
     submitForm(formAdd) {
       this.$refs[formAdd].validate((valid) => {
@@ -235,6 +309,7 @@ export default {
             if(!this.edit) {
               // this.formAdd.label = this.formAdd.label.join()
               // 发布文章
+              console.log(this.formAdd);
               articlePublish(this.formAdd).then(res => {
                 let data = res.data;
                 if (data.statusCode == 200) {
@@ -320,7 +395,15 @@ export default {
       })
     }
   },
-
+  directives: {
+    focus: {
+      // 指令的定义
+      inserted: function(el) {
+        el.children[0].focus();
+        // el.querySelector("input").focus();
+      }
+    }
+  },
   mounted() {
     // 获取分类
     getCategory().then((res) => {

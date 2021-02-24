@@ -30,11 +30,11 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200">
-        <!-- <template slot-scope="scope"> -->
-          <el-button size="mini" type="primary">查看</el-button>
-          <el-button class="article_del" size="mini" type="danger" >关闭</el-button>
+        <template slot-scope="scope">
+          <el-button size="mini" type="primary" @click="toDetail(scope.row.id)">查看</el-button>
+          <el-button class="article_del" size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           <!-- @click="handleDelete(scope.$index, scope.row)" -->
-        <!-- </template> -->
+        </template>
       </el-table-column>
     </el-table>
     </div>
@@ -46,7 +46,7 @@
 import Page from 'components/content/page/Page';
 // import { userIsLogined } from 'network/login';
 // import { getArticle, getArticlesCount, articleLike} from 'network/article';
-import { getQuestion,getQuestionCount } from 'network/question';
+import { getQuestion,getQuestionCount,deleteQuestion } from 'network/question';
 export default {
   name: 'questionManagement',
   components: {
@@ -62,7 +62,7 @@ export default {
         keyword:'', // 关键字
         currentPage:1, // 当前页码
         pageSize:5, // 每页数据量
-        author:'', //作者
+        author:localStorage.userId, //作者
         questionStatus: 0 //文章状态
       },
       categoryId:'',
@@ -71,6 +71,12 @@ export default {
     };
   },
   methods: {
+    // 进入详情页
+    toDetail(path) {
+      this.$store.state.detailId = path;
+      this.$router.push("/question/detail/" + path);
+    },
+
     /* 获取该页数量的数据 */
     getPageSize(val){
       this.param.pageSize = val; // 获取每页请求数量
@@ -106,11 +112,7 @@ export default {
         // 获取问答
         if(res.data.statusCode == 200){
           let data = res.data.data;
-          console.log('success',data);
-          // data.forEach((item,index) => {
-          //   item.image = uploadImage.UPLOAD.BASEURL + item.image;
-          //   // this.$set(this.tableData, index, item)
-          // });
+          // console.log('success',data);
           this.questionLists = data;
           this.loading = false;
         }else {
@@ -120,6 +122,35 @@ export default {
           })
         }
       }).catch(err => {})
+    },
+    handleDelete(index, row) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let data = {}
+        data.token = localStorage.username
+        data.questionId = row.id
+        deleteQuestion(data).then(res => {
+          console.log(res);
+          if(res.data.statusCode === 200){
+            /* 获取问答数量 */
+            this.getQuestionCount(this.param);
+            /* 获取问答*/
+            this.getQuestionData(this.param);
+            this.$message({
+              type: 'success',
+              message: res.data.message
+            });
+          }else {
+            this.$message({
+              type: 'error',
+              message: res.data.message
+            })
+          }
+        }).catch(err => {})
+      })
     },
   },
   created() {

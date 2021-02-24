@@ -19,6 +19,24 @@ export function articlePublish(data) {
   });
 }
 
+/* 文章内图片上传 */
+export function articleImages(data) {
+  return instance.request({
+    method: "post",
+    url:"/article/articleImages",
+    data
+  });
+}
+
+/* 文章内图片删除 */
+export function deleteImage(data) {
+  return instance.request({
+    method: "post",
+    url:"/removeFile",
+    data
+  });
+}
+
 /* 文章修改 */
 export function articleUpdata(data) {
   return instance.request({

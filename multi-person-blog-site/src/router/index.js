@@ -70,6 +70,11 @@ const routes = [
     component: () => import('../views/question/detail.vue')
   },
   {
+    path: '/user/home/:id',
+    name: 'user',
+    component: () => import('../views/user/user.vue')
+  },
+  {
     path: '/admin/login',
     name: 'adminLogin',
     component: () => import('../components/admin/childComps/adminLogin.vue')
@@ -115,7 +120,7 @@ const originalPush = VueRouter.prototype.replace
 VueRouter.prototype.replace = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
-/* 重定向不报错 */
+// /* 重定向不报错 */
 const originalPush2 = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
   return originalPush2.call(this, location).catch(err => err)

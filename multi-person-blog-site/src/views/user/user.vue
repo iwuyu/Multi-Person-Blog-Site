@@ -1,5 +1,5 @@
 <template>
-  <div id="information">
+  <div id="user">
     <div class="user-info">
       <div class="box1">
         <div class="avatar">
@@ -10,9 +10,8 @@
       <p class="signature">这个人很懒~</p>
       <div class="box2">
         <p @click="currentArticle" :class="isShow ? 'active' : ''">文章 {{profileData.article_count}}</p>&nbsp;&nbsp;|&nbsp;&nbsp;
-        <p @click="currentQuestion" :class="!isShow ? 'active' : ''">问答 {{profileData.question_count}}</p>
-        <!-- &nbsp;&nbsp;|&nbsp;&nbsp;
-        <p>去私信</p> -->
+        <p @click="currentQuestion" :class="!isShow ? 'active' : ''">问答 {{profileData.question_count}}</p>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <p>去私信</p>
       </div>
     </div>
     <div class="content-list">
@@ -24,22 +23,19 @@
 
 <script>
 import uploadImage from "network/upload";
-import { getUserInfo } from "network/user";
-import articleList from 'components/content/article/ArticleList'
-import questionList from 'views/question/childCopnps/questionList'
-export default {
-  name: "information",
-  components: { 
+import { getOtherInfo } from "network/user";
+import articleList from '../../components/content/article/ArticleList'
+import questionList from '../question/childCopnps/questionList'
+export default { 
+  name: 'user',
+  components: {
     articleList,
     questionList
   },
   data() {
     return {
-      param: {
-        token: localStorage.username,
-      },
       user: {
-        userId: localStorage.userId,
+        userId: '',
       },
       isShow:true,
       profileData:{}
@@ -54,29 +50,28 @@ export default {
     }
   },
   created() {
-    getUserInfo(this.param).then((res) => {
+    this.user.userId = this.$route.params.id
+    getOtherInfo(this.user).then((res) => {
+      console.log(res);
       if(res.data.statusCode === 200) {
         res.data.data.avatar = uploadImage.UPLOAD.BASEURL + res.data.data.avatar
         this.profileData = res.data.data
-        // this.user.userId = res.data.data.id
-        // console.log(res.data);
       }
     });
   },
-};
+}
 </script>
 
-<style lang="scss" scoped>
-#information {
-  // padding-top: 80px;
-  padding: 20px 0 20px 20px;
+<style lang='scss' scoped>
+  #user{
+    padding-top: 80px;
     min-height: 100vh;
     .user-info{
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      // width: 1000px;
+      width: 1200px;
       margin: 0 auto;
       background-color: #fff;
       padding-bottom: 20px;
@@ -118,7 +113,7 @@ export default {
     }
     .content-list {
       margin: 20px auto;
-      // width: 1000px;
+      width: 1200px;
       background-color: #fff;
     }
   }

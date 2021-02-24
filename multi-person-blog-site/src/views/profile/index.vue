@@ -1,8 +1,9 @@
 <template>
   <div id="profile">
-    <!-- <app-header/> -->
-    <login v-show="!$store.state.userIsLogined" @logined="logined"/>
-    <operation v-show="$store.state.userIsLogined"/>
+    <div class="w">
+      <login v-show="!$store.state.userIsLogined" @logined="logined"/>
+      <operation v-show="$store.state.userIsLogined"/>
+    </div>
   </div>
 </template>
 
@@ -59,6 +60,11 @@ export default {
 <style lang="scss" scoped>
   #profile{
     padding-top: 60px;
+
     min-height:calc(100vh) ;
+    .w {
+      width: 1200px;
+      margin: 0 auto;
+    }
   }
 </style>

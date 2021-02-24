@@ -17,6 +17,15 @@ export function questionPublish(data) {
   });
 }
 
+/* 问答删除 */
+export function deleteQuestion(data) {
+  return instance.request({
+    method: "post",
+    url:"/question/delete",
+    data
+  });
+}
+
 /* 获取问答数量 */
 export function getQuestionCount(param) {
   return instance.request({
@@ -38,5 +47,14 @@ export function getQuestionDetail(id) {
   return instance.request({
     method:'get',
     url:`/question/getQuestionDetail?id=${id}`
+  })
+}
+
+/* 问答点赞 */
+export function questionLike(data) {
+  return instance.request({
+    method:"post",
+    url:'/question/like',
+    data
   })
 }

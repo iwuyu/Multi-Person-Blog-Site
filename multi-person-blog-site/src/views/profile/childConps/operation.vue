@@ -10,9 +10,9 @@
         <!-- default-active="1-1" -->
         <el-menu 
         :default-openeds="['1','2','3','4','5']"
-        background-color="#888"
-        text-color="#fff"
-        active-text-color="pink"
+        background-color="#fff"
+        text-color="#555"
+        active-text-color="#409EFF"
         class="el-menu-vertical-demo"
         :collapse="isCollapse">
           <el-submenu index="1">
@@ -67,7 +67,7 @@ export default {
   methods:{
     contraction(){
       this.isCollapse = !this.isCollapse;
-      if(this.isCollapse) {
+      if(!this.isCollapse) {
         this.asideWith = '199px';
         this.elIcon = 'el-icon-arrow-left';
       }else {
@@ -106,7 +106,7 @@ export default {
     }
     .el-aside {
       width: 200px;
-      background-color:#888;
+      background-color:#fff;
       height: calc(100vh - 60px);
       max-height: calc(100vh - 60px);
     }
@@ -116,7 +116,7 @@ export default {
       line-height: 50px;
       padding-left: 40%;
       font-size: 1.3rem;
-      color: #fff;
+      color: #555;
     }
 
     .el-main {
@@ -124,7 +124,7 @@ export default {
       padding: 0;
     }
     i{
-      color: #fff;
+      color: #555;
     }
 
     .el-aside::-webkit-scrollbar,.el-main::-webkit-scrollbar{

@@ -41,26 +41,21 @@
           <span style="-webkit-line-clamp: 1;display: -webkit-box;word-break: break-all;-webkit-box-orient: vertical;line-height: 1.8;">{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="文章配图" width="150" >
+      <el-table-column label="文章配图" width="100" >
         <template slot-scope="scope">
           <div class="article_img">
             <img :src="scope.row.image" alt="">
           </div>
         </template>
       </el-table-column>
-      <!-- <el-table-column label="文章简介">
+      <el-table-column label="点赞量" width="100">
         <template slot-scope="scope">
-          <span style="-webkit-line-clamp: 1;display: -webkit-box;word-break: break-all;-webkit-box-orient: vertical;line-height: 1.8;">{{ scope.row.describes }}</span>
-        </template>
-      </el-table-column> -->
-      <el-table-column label="点赞量" width="120">
-        <template slot-scope="scope">
-          <span style="margin-left: 0px">点赞量：{{ scope.row.likes }}</span>
+          <span style="margin-left: 0px">点赞：{{ scope.row.likes }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="阅读量" width="120">
+      <el-table-column label="阅读量" width="100">
         <template slot-scope="scope">
-          <span style="margin-left: 0px">阅读量：{{ scope.row.access }}</span>
+          <span style="margin-left: 0px">阅读：{{ scope.row.access }}</span>
         </template>
       </el-table-column>
       <el-table-column label="发布日期" width="180">
@@ -74,16 +69,13 @@
           <span style="margin-left: 0px" :class="scope.row.reviewed == 0 ? 'review' : (scope.row.reviewed == 1 ? 'reviewed' : 'nopass')">{{ scope.row.reviewed == 0 ? "待审核" : (scope.row.reviewed == 1 ? "已审核" : "未通过") }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-popover
             placement="right"
             width="900"
             trigger="click">
               <articlePublish :list="list">
-                <!-- <div class="article_img">
-                  <img :src="scope.row.image" alt="">
-                </div> -->
               </articlePublish>
             <el-button size="mini" type="primary" @click="handleEdit(scope.$index, scope.row)" slot="reference">编辑</el-button>
           </el-popover>
@@ -329,7 +321,7 @@ export default {
     margin-right: 1rem;
   }
   .input-keywork {
-    width: 16rem;
+    width: 15rem;
     display: inline-block;
   }
   .el-table {

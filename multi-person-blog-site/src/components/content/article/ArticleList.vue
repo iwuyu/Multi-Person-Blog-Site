@@ -20,7 +20,7 @@
       <!--时间、浏览量、评论量、点赞量-->
       <div class="foots">
         <span>{{item.category_name}} | {{item.label_name}}</span>&nbsp;&nbsp;
-        <span>作者 {{item.username }}</span> &nbsp;&nbsp;
+        <span @click="$router.push(`/user/home/${item.author_id}`)">作者 {{item.username }}</span> &nbsp;&nbsp;
         <span>阅读 {{item.access}}</span>&nbsp;&nbsp;
         <span>评论 {{item.comment_count}}</span>&nbsp;&nbsp;
         <!-- <i class="iconfont icon-pinglun">&nbsp;{{item.article_messagecount}}</i>&nbsp; -->
@@ -46,6 +46,10 @@ export default {
   components: {
     Page
   },
+  props:{user:{
+    type: Object,
+    default:() => ({})
+  }},
   data() {
     return {
       articleLists: [],
@@ -107,7 +111,7 @@ export default {
     // 进入详情页
     toDetail(path) {
       this.$store.state.detailId = path;
-      this.$router.push("article/detail/" + path);
+      this.$router.push("/article/detail/" + path);
     },
 
     // 切换文章页码
@@ -254,6 +258,18 @@ export default {
       /* 获取商品*/
       this.getArticlesData(this.param);
     },
+    user: {
+      immediate:true,
+      handler(n,o) {
+        console.log(1111111,n);
+        this.param.author = n.userId ? n.userId : ''
+        /* 获取所有商品数量 */
+        this.getArticleCount(this.param);
+
+        /* 获取商品*/
+        this.getArticlesData(this.param);
+      }
+    }
   },
   created() {
     /* 获取所有商品数量 */
@@ -359,32 +375,34 @@ export default {
           color: #444;
           font-size: .85rem;
           line-height: 1.5rem;
-          span{
-            cursor: pointer;
-          }
-          span:nth-child(1){
-            &:hover{
-              color: palegreen;
-            }
-          }
+          // span{
+          //   cursor: pointer;
+          // }
+          // span:nth-child(1){
+          //   &:hover{
+          //     color: palegreen;
+          //   }
+          // }
           span:nth-child(2){
             &:hover{
               color:palevioletred;
+              cursor: pointer;
             }
           }
-          span:nth-child(3){
-            &:hover{
-              color:slateblue;
-            }
-          }
-          span:nth-child(4){
-            &:hover{
-              color:goldenrod;
-            }
-          }
+          // span:nth-child(3){
+          //   &:hover{
+          //     color:slateblue;
+          //   }
+          // }
+          // span:nth-child(4){
+          //   &:hover{
+          //     color:goldenrod;
+          //   }
+          // }
           span:nth-child(5){
             &:hover{
               color:tomato;
+              cursor: pointer;
             }
           }
         }

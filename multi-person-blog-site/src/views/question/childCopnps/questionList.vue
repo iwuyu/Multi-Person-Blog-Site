@@ -30,10 +30,9 @@
       <div class="foots">
         <span><el-tag type="success">{{item.name}}</el-tag></span>
         <span>
-          <span> <i class="iconfont icon-user"></i>&nbsp; {{item.username }}</span> &nbsp;&nbsp;
+          <span class="user-name" @click="$router.push(`/user/home/${item.author_id}`)"> <i class="iconfont icon-user"></i>&nbsp; {{item.username }}</span> &nbsp;&nbsp;
           <span> <i class="iconfont icon-icon-time"></i>&nbsp;{{item.time}}</span>&nbsp;&nbsp;
         </span>
-        <!-- <span :class="{likeStyle:liked(item.id)}" @click="likeArticle(item.id)">喜欢 {{item.likes}}</span> -->
       </div>
     </div>
     <div class="bar"></div>
@@ -46,9 +45,6 @@
 
 <script>
 import Page from "../../../components/content/article/Page";
-import { userIsLogined } from 'network/login';
-import uploadImage from "network/upload";
-import { getArticle, getArticlesCount, articleLike} from 'network/article';
 import { getQuestion,getQuestionCount } from 'network/question';
 
 export default {
@@ -56,6 +52,10 @@ export default {
   components: {
     Page
   },
+  props:{user:{
+    type: Object,
+    default:() => ({})
+  }},
   data() {
     return {
       articleLists: [],
@@ -74,49 +74,11 @@ export default {
       keyword:''
     };
   },
-  computed:{
-    currentLabelId: {
-      get (){
-        let date = Date.parse(new Date());
-        // 获取事件总线labelId
-        // Bus.$on('labelId', labelId => { this.labelId = labelId + date });
-        this.labelId = this.$store.state.labelId;
-        return this.labelId;
-      }
-    },
-    currentCategoryId: {
-      get (){
-        let date = Date.parse(new Date());
-        // 获取事件总线categoryId
-        // Bus.$on('categoryId', categoryId => { this.categoryId = categoryId + date });
-        this.categoryId = this.$store.state.categoryId;
-        return this.categoryId;
-      }
-    },
-    currentKeyWord: {
-      get (){
-        // 获取事件总线keyWord
-        // Bus.$on('keyWord', keyWord => { this.keyWord = keyWord });
-        this.keyword = this.$store.state.keyword;
-        return this.keyword;
-      }
-    },
-    liked() {
-      return function(id) {
-        return localStorage.getItem(`like${id}`)
-      }
-    },
-  },
-  filters:{
-    timeFilter(V) {
-      return V.toString().slice(0,10)
-    }
-  },
   methods: {
     // 进入详情页
     toDetail(path) {
       this.$store.state.detailId = path;
-      this.$router.push("question/detail/" + path);
+      this.$router.push("/question/detail/" + path);
     },
 
     // 切换问答页码
@@ -128,75 +90,6 @@ export default {
       this.getQuestionData(this.param);
     },
 
-    // 问答点赞
-    likeArticle(articleId) {
-      if(localStorage.getItem('username')) {
-        if(localStorage.getItem(`like${articleId}`)) {
-          this.$message({
-            message: '你已经为这篇文章点过赞了噢~o(*￣▽￣*)o',
-            type: 'warning',
-            offset:'80'
-          });
-        } else {
-          let data = {}
-          data.token = localStorage.username
-          userIsLogined(data).then(res => {
-            if(res.data.statusCode === 200){
-              /* 发送请求 */
-              let param = {}
-              param.articleId = articleId
-              articleLike(param).then(res => {
-                if(res.data.statusCode === 200){
-                  this.$message({
-                    message: res.data.message,
-                    type: 'success'
-                  });
-                  localStorage.setItem(`like${articleId}`,articleId);
-                  this.articleLists.forEach(item => {
-                    if(item.id === articleId){
-                      item.likes += 1;
-                    }
-                  })
-                }else {
-                  this.$message({
-                    message: res.data.message,
-                    type: 'error'
-                  });
-                }
-              })
-            }else {
-              // token已过期
-              localStorage.removeItem("username");
-              this.$message({
-                message: res.data.message,
-                type: 'error'
-              });
-            }
-          })
-        }
-      } else {
-        this.$message({
-          message: "请先去登陆再来点赞ba！(ノへ￣、)",
-          type: 'error'
-        });
-      }
-    },
-
-    // 获取所有问答
-    getAllArticle() {
-      getArticle(this.page).then(res => {
-        this.articleCounts = res.data.count;
-        if(res.data.statusCode === 200) {
-          let data = res.data.data;
-          data.forEach(item => {
-            item.image = uploadImage.UPLOAD.BASEURL + item.image;
-          });
-          this.articleLists = data;
-        }else {
-          console.log(res.data.msg)
-        }
-      })
-    },
     /* 初始化获取问答数量 */
     getQuestionCount(param) {
       getQuestionCount(param).then(res => {
@@ -235,34 +128,18 @@ export default {
     },
   },
   watch: {
-    // 监听标签的变化
-    currentLabelId(value) {
-      this.param.categoryId = ''
-      this.param.labelId = value.toString().substring(10,value.length).replace(/\b(0+)/gi,"");
-      /* 获取所有问答数量 */
-      this.getQuestionCount(this.param);
-      /* 获取问答*/
-      this.getQuestionData(this.param);
-    },
+    user: {
+      immediate:true,
+      handler(n,o) {
+        console.log(1111111,n);
+        this.param.author = n.userId ? n.userId : ''
+        /* 获取所有问答数量 */
+        this.getQuestionCount(this.param);
 
-    // 监听分类的变化
-    currentCategoryId(value) {
-      this.param.labelId = ''
-      this.param.categoryId = value.toString().substring(10,value.length).replace(/\b(0+)/gi,"");
-      /* 获取所有问答数量 */
-      this.getQuestionCount(this.param);
-      /* 获取问答*/
-      this.getQuestionData(this.param);
-    },
-
-    // 监听搜索框的变化
-    currentKeyWord(value) {
-      this.param.keyword = value
-      /* 获取所有问答数量 */
-      this.getQuestionCount(this.param);
-      /* 获取问答*/
-      this.getQuestionData(this.param);
-    },
+        /* 获取问答*/
+        this.getQuestionData(this.param);
+      }
+    }
   },
   created() {
     /* 获取所有问答数量 */
@@ -386,6 +263,10 @@ export default {
           }
           span:nth-child(2){
             float: right;
+          }
+          .user-name:hover {
+            cursor: pointer;
+            color: #409EFF;
           }
         }
       }

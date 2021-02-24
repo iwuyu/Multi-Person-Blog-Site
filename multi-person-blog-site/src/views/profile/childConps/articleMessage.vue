@@ -29,7 +29,7 @@
     <el-button class="select_btn" type="primary"  @click="hasComment(articleId)">确认查询</el-button>
     <hr style="margin:30px 0 10px">
     <h3>评论表</h3>
-    <el-table :data="message"  style="width: 80%; ">
+    <el-table :data="message"  style="width: 100%; ">
       <el-table-column label="评论者" width="200">
         <template slot-scope="scope">
           <el-tag size="medium" style="margin-right: 10px">{{ scope.row.username }}</el-tag>
