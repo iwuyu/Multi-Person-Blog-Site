@@ -19,6 +19,19 @@ export function getUserInfo(param) {
   return instance.get(`/getUserInfo?token=${param.token}`) 
 } 
 
+/* 获取个人消息 */ 
+export function getUserMessage(param) {
+  return instance.get(`/getUserMessage?token=${param.token}`) 
+} 
+/* 获取个人消息 */ 
+export function deleteUserMessage(data) {
+  return instance.request({
+    method:"post",
+    url:'/deleteUserMessage',
+    data
+  })
+} 
+
 /* 获取他人信息 */ 
 export function getOtherInfo(param) {
   return instance.get(`/getOtherInfo?userId=${param.userId}`) 

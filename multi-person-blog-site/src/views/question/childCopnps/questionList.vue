@@ -52,10 +52,16 @@ export default {
   components: {
     Page
   },
-  props:{user:{
-    type: Object,
-    default:() => ({})
-  }},
+  props:{
+    user:{
+      type: Object,
+      default:() => ({})
+    },
+    label:{
+      type: Object,
+      default:() => ({})
+    }
+  },
   data() {
     return {
       articleLists: [],
@@ -111,11 +117,6 @@ export default {
         // 获取问答
         if(res.data.statusCode == 200){
           let data = res.data.data;
-          console.log('success',data);
-          // data.forEach((item,index) => {
-          //   item.image = uploadImage.UPLOAD.BASEURL + item.image;
-          //   // this.$set(this.tableData, index, item)
-          // });
           this.articleLists = data;
           this.loading = false;
         }else {
@@ -128,6 +129,17 @@ export default {
     },
   },
   watch: {
+    label: {
+      handler(n,o) {
+        this.param.labelId = n.labelId ? n.labelId : ''
+        /* 获取所有问答数量 */
+        this.getQuestionCount(this.param);
+
+        /* 获取问答*/
+        this.getQuestionData(this.param);
+      },
+      deep:true
+    },
     user: {
       immediate:true,
       handler(n,o) {

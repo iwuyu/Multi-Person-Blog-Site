@@ -1,6 +1,6 @@
 export default {
   UPLOAD: {
-    BASEURL: "http://192.168.31.29:3000", // 后台地址
+    BASEURL: "http://192.168.31.30:3000", // 后台地址
     UPLOADIMAGE: "/article/images", // 文章封面图路径
     UPLOADCONTENT: "/article/content", // 文章内容插图
     UPLOADAVATAR: "/userAvatar", // 用户头像

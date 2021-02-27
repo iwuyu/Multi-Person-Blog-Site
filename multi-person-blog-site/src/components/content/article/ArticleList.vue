@@ -140,6 +140,7 @@ export default {
               /* 发送请求 */
               let param = {}
               param.articleId = articleId
+              param.author = localStorage.userId
               articleLike(param).then(res => {
                 if(res.data.statusCode === 200){
                   this.$message({

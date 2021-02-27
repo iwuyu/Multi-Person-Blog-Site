@@ -144,6 +144,7 @@ export default {
               /* 发送请求 */
               let param = {}
               param.questionId = questionId
+              param.author = localStorage.userId
               questionLike(param).then(res => {
                 if(res.data.statusCode === 200){
                   localStorage.setItem(`likeQuestion${questionId}`,questionId);

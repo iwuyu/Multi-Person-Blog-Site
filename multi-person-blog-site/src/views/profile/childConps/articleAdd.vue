@@ -1,6 +1,6 @@
 <template>
   <div id="add-article">
-    <h2>{{edit?"修改文章":"添加文章"}}</h2>
+    <p class="breadbcrumb">文章管理 / {{edit?"修改文章":"文章发布"}}</p>
     <br>
     <el-form :model="formAdd" status-icon :rules="rules" ref="formAdd" class="demo-formAdd">
       <el-form-item prop="title">
@@ -447,7 +447,14 @@ export default {
 
 <style lang="scss" scoped>
   #add-article {
-    padding: 2rem 3rem;
+    margin: 0 20px;
+    .breadbcrumb {
+      font-size: 14px;
+      padding: 10px;
+      color: #666;
+      background-color: #fff;
+      margin: 10px 0;
+    }
     .demo-formAdd{
       margin: auto;
       .el-input,

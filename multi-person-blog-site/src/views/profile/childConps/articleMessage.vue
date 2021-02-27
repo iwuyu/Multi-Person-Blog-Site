@@ -1,7 +1,7 @@
 <template>
   <div class="article_message">
-    <h1>文章评论</h1>
-    <h3>选择文章</h3>
+    <p class="breadbcrumb">问答管理 / 文章评论</p>
+    <!-- <h3></h3> -->
     <el-select class="change" v-model="param.categoryId" @change="selectCategoryChanged" filterable placeholder="请选择文章分类">
       <el-option
         v-for="item in categoryData"
@@ -27,8 +27,9 @@
       </el-option>
     </el-select>
     <el-button class="select_btn" type="primary"  @click="hasComment(articleId)">确认查询</el-button>
-    <hr style="margin:30px 0 10px">
-    <h3>评论表</h3>
+    <!-- <hr style="margin:10px 0; background-color:#999;"> -->
+    <p style="margin:15px 0; border-bottom:1px solid #ccc"></p>
+    <!-- <h3>评论表</h3> -->
     <el-table :data="message"  style="width: 100%; ">
       <el-table-column label="评论者" width="200">
         <template slot-scope="scope">
@@ -228,11 +229,19 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .article_message {
-  padding: 1rem 1.5rem 1.5rem 1rem;
+  margin: 0 20px;
+  .breadbcrumb {
+    font-size: 14px;
+    padding: 10px;
+    color: #666;
+    background-color: #fff;
+    margin: 10px 0;
+  }
 }
 .article_message h3 {
+  font-size: 16px;
   margin: 1.5rem 0 0.5rem 0;
 }
 .el-table {

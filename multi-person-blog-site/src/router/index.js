@@ -52,6 +52,11 @@ const routes = [
         name: 'questionManagement',
         component: () => import('../views/profile/childConps/questionManagement.vue')
       },
+      {
+        path: '/profile/message',
+        name: 'message',
+        component: () => import('../views/profile/childConps/message.vue')
+      },
     ]
   },
   {
@@ -73,6 +78,11 @@ const routes = [
     path: '/user/home/:id',
     name: 'user',
     component: () => import('../views/user/user.vue')
+  },
+  {
+    path: '/profile/letter',
+    name: 'privateLetter',
+    component: () => import('../views/profile/childConps/privateLetter.vue')
   },
   {
     path: '/admin/login',

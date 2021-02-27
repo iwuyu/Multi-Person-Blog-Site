@@ -1,6 +1,6 @@
 <template>
   <div class="article_management">
-    <h1>文章管理</h1>
+    <p class="breadbcrumb">文章管理 / 我的文章</p>
     <div class="search">
       <el-select class="change" v-model="param.categoryId" @change="selectCategoryChanged" filterable placeholder="请选择文章分类">
         <el-option
@@ -300,12 +300,14 @@ export default {
 
 <style lang="scss" >
   .article_management {
-    padding: 1rem 1.5rem 1.5rem 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    // .list {
-      
-    // }
+    margin: 0 20px;
+    .breadbcrumb {
+      font-size: 14px;
+      padding: 10px;
+      color: #666;
+      background-color: #fff;
+      margin: 10px 0;
+    }
   }
   @media screen and (max-width:600px) {
 

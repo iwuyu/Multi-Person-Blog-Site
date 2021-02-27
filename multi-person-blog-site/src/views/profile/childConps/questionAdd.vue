@@ -1,6 +1,6 @@
 <template>
   <div id="question-add">
-    <h1 style="margin:20px">问答发布</h1>
+    <p class="breadbcrumb">问答管理 / 问题发布</p>
     <el-form :model="formAdd" status-icon :rules="rules" ref="formAdd" class="demo-formAdd">
       <el-form-item prop="title">
         <label><i class="el-icon-paperclip">&nbsp;问答标题</i></label>
@@ -139,9 +139,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .demo-formAdd {
-    width: 900px;
-    margin: 0 auto;
+  #question-add {
+    margin: 0 20px;
+    .breadbcrumb {
+      font-size: 14px;
+      padding: 10px;
+      color: #666;
+      background-color: #fff;
+      margin: 10px 0;
+    }
+    // .demo-formAdd {
+    //   // width: 900px;
+    //   // margin: 0 auto;
+    // }
   }
+  
 
 </style>
