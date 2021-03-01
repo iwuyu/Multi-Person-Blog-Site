@@ -5,9 +5,13 @@ import store from './store/index'
 import "./utils/elementUI"
 import './assets/iconfont/iconfont.css'
 import mavonEditor from 'mavon-editor' // 引入markdown 所有组件
-import 'mavon-editor/dist/css/index.css';
-// import echarts from 'echarts'
-// Vue.prototype.$echarts = echarts
+import 'mavon-editor/dist/css/index.css'
+// import VueSocketio from 'vue-socket.io'
+// import socketio from 'socket.io-client'
+// Vue.use(new VueSocketio({
+//   debug: true,
+//   connection: socketio('http://localhost:8081') 
+// }));
 
 Vue.config.productionTip = false
 

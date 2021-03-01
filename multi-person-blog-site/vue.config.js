@@ -11,5 +11,16 @@ module.exports = {
       }
     },
   },
-  lintOnSave: false
+  lintOnSave: false,
+  devServer: {
+    proxy: {
+      '/socket.io': {
+        target: 'http://192.168.31.31:8081.', //代理的服务地址
+        ws:true,
+        changeOrigin: true, // needed for virtual hosted sites
+        logLevel: 'debug'
+        
+      }
+    }
+  }
 }

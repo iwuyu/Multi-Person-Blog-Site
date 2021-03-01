@@ -40,7 +40,7 @@
           <el-submenu index="5">
             <template slot="title"><i class="el-icon-s-tools"></i><span slot="title">系统设置</span></template>
               <!-- <el-menu-item index="5-1">关于系统</el-menu-item> -->
-              <el-menu-item index="5-1">退出登录</el-menu-item>
+              <el-menu-item index="5-1" @click="userExit">退出登录</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
@@ -76,24 +76,12 @@ export default {
         this.elIcon = 'el-icon-arrow-right';
       }
     },
-    // adminExit() {
-    //   adminExit().then(res => {
-    //     if(res.data.err === 0) {
-    //       this.$message({
-    //         type:'success',
-    //         offset:'80',
-    //         message:'博主，期待您的下次光临！'
-    //       })
-    //       this.$router.replace('login')
-    //     }else {
-    //       this.$message({
-    //         type:'error',
-    //         offset:'80',
-    //         message:'网络出错！请稍后重试'
-    //       })
-    //     }
-    //   })
-    // }
+    userExit() {
+      // this.$router.replace('login')
+      localStorage.clear()
+      // this.$router.replace('/profile')
+      location.reload();
+    }
   },
   
 }
@@ -130,6 +118,19 @@ export default {
 
     .el-aside::-webkit-scrollbar,.el-main::-webkit-scrollbar{
 	    width: 0;
+    }
+
+    .el-aside,.el-main{
+      -ms-scroll-chaining: chained;
+      -ms-overflow-style: none;
+      -ms-content-zooming: zoom;
+      -ms-scroll-rails: none;
+      -ms-content-zoom-limit-min: 100%;
+      -ms-content-zoom-limit-max: 500%;
+      -ms-scroll-snap-type: proximity;
+      -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+      -ms-overflow-style: none;
+      overflow: auto;
     }
 
     .el-menu-vertical-demo:not(.el-menu--collapse) {
